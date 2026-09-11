@@ -30,11 +30,29 @@ public class TicketService(ApplicationDbContext dbContext) : ITicketService
             dto.Body,
             dto.Priority,
             assignedAdminId
-        ); 
+        );
         dbContext.Tickets.Add(ticket);
         await dbContext.SaveChangesAsync();
-        
+
         return ticket;
+    }
+
+    public async Task<TicketAnswer> Answer(string answer, int userId, int ticketId)
+    {
+        if (userId <= 0)
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        var admin = dbContext.Admins
+            .Select(x => new {x.UserId, x.Id})
+            .FirstOrDefaultAsync(x => x.UserId == userId);
+        
+        var answerTicket = new TicketAnswer(ticketId, answer, admin?.Id);
+
+        dbContext.TicketAnswers.Add(answerTicket);
+        await dbContext.SaveChangesAsync();
+        return answerTicket;
     }
 
     private async Task<int> _AssignedAdmin(int? departmentId)
@@ -61,4 +79,5 @@ public class TicketService(ApplicationDbContext dbContext) : ITicketService
         
         return admins!.AdminId;
     }
+    
 }
