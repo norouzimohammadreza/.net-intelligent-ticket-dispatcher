@@ -1,6 +1,6 @@
 ﻿namespace IntelligentTicketDispatcher.Entities;
 
-public class AdminTickets
+public class AdminTicket
 {
     public int AdminId { get; private set; }
     public Admin? Admin { get; private set; }
@@ -8,11 +8,11 @@ public class AdminTickets
     public Ticket? Ticket { get; private set; }
     public DateTime AssignedAt { get; private set; }
 
-    private AdminTickets()
+    private AdminTicket()
     {
     }
 
-    public AdminTickets(int adminId, int ticketId, DateTime assignedAt)
+    public AdminTicket(int adminId, int ticketId, DateTime assignedAt)
     {
         AdminId = adminId;
         TicketId = ticketId;
