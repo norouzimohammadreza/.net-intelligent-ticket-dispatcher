@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentTicketDispatcher", "IntelligentTicketDispatcher\IntelligentTicketDispatcher.csproj", "{5FCF0BBB-E440-4984-830C-8B9A5B18451A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FCF0BBB-E440-4984-830C-8B9A5B18451A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FCF0BBB-E440-4984-830C-8B9A5B18451A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FCF0BBB-E440-4984-830C-8B9A5B18451A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FCF0BBB-E440-4984-830C-8B9A5B18451A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

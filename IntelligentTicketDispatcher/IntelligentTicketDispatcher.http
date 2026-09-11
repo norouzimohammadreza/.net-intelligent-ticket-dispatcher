@@ -1,0 +1,6 @@
+@IntelligentTicketDispatcher_HostAddress = http://localhost:5182
+
+GET {{IntelligentTicketDispatcher_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
