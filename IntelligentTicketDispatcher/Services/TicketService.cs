@@ -37,7 +37,7 @@ public class TicketService(ApplicationDbContext dbContext) : ITicketService
         return ticket;
     }
 
-    public async Task<TicketAnswer> Answer(string answer, int userId, int ticketId)
+    public async Task<TicketMessage> Answer(string answer, int userId, int ticketId)
     {
         if (userId <= 0)
         {
@@ -45,14 +45,22 @@ public class TicketService(ApplicationDbContext dbContext) : ITicketService
         }
 
         var admin = dbContext.Admins
-            .Select(x => new {x.UserId, x.Id})
+            .Select(x => new { x.UserId, x.Id })
             .FirstOrDefaultAsync(x => x.UserId == userId);
-        
-        var answerTicket = new TicketAnswer(ticketId, answer, admin?.Id);
 
-        dbContext.TicketAnswers.Add(answerTicket);
+        var answerTicket = new TicketMessage(ticketId, answer, admin?.Id);
+
+        dbContext.TicketMessages.Add(answerTicket);
         await dbContext.SaveChangesAsync();
         return answerTicket;
+    }
+
+    public async Task<Ticket> GetTicketMessages(int ticketId)
+    {
+        return await dbContext.Tickets
+            .Where(x => x.Id == ticketId)
+            .Include(x => x.TicketMessages)
+            .FirstAsync();
     }
 
     private async Task<int> _AssignedAdmin(int? departmentId)
@@ -76,8 +84,7 @@ public class TicketService(ApplicationDbContext dbContext) : ITicketService
             .Select(x => new { AdminId = x.Id, Count = x.AdminTickets.Count(at => at.Ticket!.IsOpened == true) })
             .OrderBy(x => x.Count)
             .FirstOrDefaultAsync();
-        
+
         return admins!.AdminId;
     }
-    
 }

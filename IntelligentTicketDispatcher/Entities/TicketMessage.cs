@@ -1,6 +1,6 @@
 ﻿namespace IntelligentTicketDispatcher.Entities;
 
-public class TicketAnswer : BaseEntity
+public class TicketMessage : BaseEntity
 {
     public int? AdminId { get; private set; }
     public Admin? Admin { get; private set; }
@@ -9,11 +9,11 @@ public class TicketAnswer : BaseEntity
     public bool isAdmin { get; private set; } = true;
     public string Answer { get; private set; }
 
-    private TicketAnswer()
+    private TicketMessage()
     {
     }
 
-    public TicketAnswer(int ticketId, string answer, int? adminId)
+    public TicketMessage(int ticketId, string answer, int? adminId)
     {
         AdminId = adminId;
         TicketId = ticketId;

@@ -15,5 +15,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<DepartmentAdmin> DepartmentAdmins { get; set; }
     public DbSet<AdminTicket> AdminTickets { get; set; }
-    public DbSet<TicketAnswer> TicketAnswers { get; set; }
+    public DbSet<TicketMessage> TicketMessages { get; set; }
 }

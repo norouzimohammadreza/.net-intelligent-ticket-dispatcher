@@ -22,4 +22,11 @@ public class TicketsController(ITicketService ticketService) : Controller
         var result = await ticketService.Answer(answer, userId, ticketId);
         return Ok(result);
     }
+    
+    public async Task<IActionResult> GetTicketMessages(int ticketId)
+    {
+        var userId = Request.HttpContext.GetUserId();
+        var result = await ticketService.GetTicketMessages(ticketId);
+        return Ok(result);
+    }
 }
