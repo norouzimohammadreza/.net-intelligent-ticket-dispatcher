@@ -10,5 +10,6 @@ public class Customer : BaseEntity
     public Customer(int userId)
     {
         UserId = userId;
+        CreatedAt = DateTime.UtcNow;
     }
 }

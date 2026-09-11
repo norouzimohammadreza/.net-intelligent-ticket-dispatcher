@@ -13,6 +13,7 @@ public class Ticket : BaseEntity
     public int? DepartmentId { get; private set; }
     public Department? Department { get; private set; }
     public ICollection<AdminTicket> AdminTickets { get; private set; } = [];
+    public ICollection<TicketAnswer> TicketAnswers { get; private set; } = [];
 
     private Ticket()
     {

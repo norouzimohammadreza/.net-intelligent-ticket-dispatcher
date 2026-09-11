@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
-    public DbSet<AdminDepartment> AdminDepartments { get; set; }
+    public DbSet<DepartmentAdmin> DepartmentAdmins { get; set; }
     public DbSet<AdminTicket> AdminTickets { get; set; }
+    public DbSet<TicketAnswer> TicketAnswers { get; set; }
 }
