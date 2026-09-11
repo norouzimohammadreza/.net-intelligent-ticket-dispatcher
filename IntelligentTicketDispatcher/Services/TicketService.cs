@@ -39,48 +39,26 @@ public class TicketService(ApplicationDbContext dbContext) : ITicketService
 
     private async Task<int> _AssignedAdmin(int? departmentId)
     {
-        var adminIds = await dbContext.AdminDepartments
-            .Select(x => new { x.AdminId, x.DepartmentId })
-            .Distinct()
-            .ToListAsync();
-
         if (departmentId != null)
         {
-            var departmentAdminIds = adminIds
+            var departmentAdmins = await dbContext.DepartmentAdmins
                 .Where(x => x.DepartmentId == departmentId)
-                .Select(x => x.AdminId)
-                .ToList();
+                .Select(x => new
+                    { AdminId = x.AdminId, Count = x.Admin!.AdminTickets.Count(at => at.Ticket!.IsOpened == true) })
+                .OrderBy(x => x.Count)
+                .FirstOrDefaultAsync();
 
-            var ticketDepartmentAdmins = await dbContext.AdminTickets
-                .Include(x => x.Ticket)
-                .Where(x => departmentAdminIds.Contains(x.AdminId) && x.Ticket!.IsOpened == true)
-                .Select(x => new { x.AdminId })
-                .ToListAsync();
-
-            var adminsOpenTicketsCount = ticketDepartmentAdmins.ToDictionary(k => k.AdminId,
-                v => ticketDepartmentAdmins.Count(x => departmentAdminIds.Contains(x.AdminId))).OrderBy(x => x.Value);
-
-            var lessTicketsAdmin = adminsOpenTicketsCount.First();
-
-            if (lessTicketsAdmin.Value <= 5)
+            if (departmentAdmins!.Count <= 5)
             {
-                return lessTicketsAdmin.Key;
+                return departmentAdmins!.AdminId;
             }
         }
 
-        var selectedAdminIds = adminIds
-            .Select(x => x.AdminId)
-            .ToList();
-
-        var ticketsAdmins = await dbContext.AdminTickets
-            .Include(x => x.Ticket)
-            .Where(x => selectedAdminIds.Contains(x.AdminId) && x.Ticket!.IsOpened == true)
-            .Select(x => new { x.AdminId })
-            .ToListAsync();
-
-        var adminTicketsCount = ticketsAdmins.ToDictionary(k => k.AdminId,
-            v => ticketsAdmins.Count(x => selectedAdminIds.Contains(x.AdminId))).OrderBy(x => x.Value);
-
-        return adminTicketsCount.First().Key;
+        var admins = await dbContext.Admins
+            .Select(x => new { AdminId = x.Id, Count = x.AdminTickets.Count(at => at.Ticket!.IsOpened == true) })
+            .OrderBy(x => x.Count)
+            .FirstOrDefaultAsync();
+        
+        return admins!.AdminId;
     }
 }
